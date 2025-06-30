@@ -8,23 +8,32 @@ import geopandas as gpd
 import webbrowser
 
 
-def open_browser(url):
+def wsl_to_windows_path(wsl_path):
+    return 
+
+def open_browser(path):
     # Checks if this is run from wsl, otherwise runs like normal.
     if os.path.exists('/proc/version'):
         with open('/proc/version', 'r') as f:
             if 'microsoft' in f.read().lower() or 'wsl' in f.read().lower():
-                # We're in WSL - use Windows Chrome
+
+                # First translate to windows-style path
+                result = subprocess.run(['wslpath', '-w', path], 
+                          capture_output=True, text=True)
+                win_path = result.stdout.strip()
+                
+                # Then open THAT path
                 subprocess.run([
                     'cmd.exe', '/c', 'start', '""',
                     r"C:\Program Files\Google\Chrome\Application\chrome.exe",
                     '--new-window',
                     '--profile-directory=Default',
-                    url
+                    win_path
                 ])
                 return
     
     # Regular Linux - use webbrowser module
-    webbrowser.get('google-chrome').open(url)
+    webbrowser.get('google-chrome').open(win_path)
 
 
 @click.command()

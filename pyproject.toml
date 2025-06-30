@@ -1,6 +1,6 @@
 [project]
 name = "cart"
-version = "0.1.7"
+version = "0.1.8"
 description = "Quickly map output from postgis in your browser."
 readme = "README.md"
 requires-python = ">=3.12"
