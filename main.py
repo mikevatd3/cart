@@ -45,7 +45,7 @@ def main(query, filename, database, username, geom_col, variable, cmap):
         sys.exit(1)
 
     engine = create_engine(
-        f"postgresql+psycopg://{username}@localhost:5432/{database}"
+        f"postgresql+psycopg://{username}@edw:5432/{database}"
     )
 
     with engine.connect() as db:
