@@ -20,6 +20,20 @@ import webbrowser
     help="Database username (defaults to current user)",
 )
 @click.option(
+    "-h",
+    "--host",
+    "host",
+    default="127.0.0.1",
+    help="Hostname for connection (defaults to localhost)",
+)
+@click.option(
+    "-p",
+    "--port",
+    "port",
+    default='5432',
+    help="Port name for connection (defaults to 5432)",
+)
+@click.option(
     "-g",
     "--geom-col",
     "geom_col",
@@ -32,7 +46,7 @@ import webbrowser
 @click.option(
     "--cmap", "cmap", default=None, help="Colormap from matplotlib for variable coloring"
 )
-def main(query, filename, database, username, geom_col, variable, cmap):
+def main(query, filename, database, username, host, port, geom_col, variable, cmap):
     if query:
         pass
     elif filename:
@@ -45,7 +59,7 @@ def main(query, filename, database, username, geom_col, variable, cmap):
         sys.exit(1)
 
     engine = create_engine(
-        f"postgresql+psycopg://{username}@edw:5432/{database}"
+        f"postgresql+psycopg://{username}@{host}:{port}/{database}"
     )
 
     with engine.connect() as db:
