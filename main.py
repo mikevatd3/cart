@@ -7,13 +7,20 @@ import click
 import geopandas as gpd
 import webbrowser
 
+
 def open_browser(url):
     # Checks if this is run from wsl, otherwise runs like normal.
     if os.path.exists('/proc/version'):
         with open('/proc/version', 'r') as f:
             if 'microsoft' in f.read().lower() or 'wsl' in f.read().lower():
                 # We're in WSL - use Windows Chrome
-                subprocess.run(['cmd.exe', '/c', 'start', 'chrome', url])
+                subprocess.run([
+                    'cmd.exe', '/c', 'start', '""',
+                    r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+                    '--new-window',
+                    '--profile-directory=Default',
+                    url
+                ])
                 return
     
     # Regular Linux - use webbrowser module
