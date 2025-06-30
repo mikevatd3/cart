@@ -1,9 +1,23 @@
 import sys
+import os
+import subprocess
 import getpass
 from sqlalchemy import create_engine, text
 import click
 import geopandas as gpd
 import webbrowser
+
+def open_browser(url):
+    # Checks if this is run from wsl, otherwise runs like normal.
+    if os.path.exists('/proc/version'):
+        with open('/proc/version', 'r') as f:
+            if 'microsoft' in f.read().lower() or 'wsl' in f.read().lower():
+                # We're in WSL - use Windows Chrome
+                subprocess.run(['cmd.exe', '/c', 'start', 'chrome', url])
+                return
+    
+    # Regular Linux - use webbrowser module
+    webbrowser.get('google-chrome').open(url)
 
 
 @click.command()
@@ -70,7 +84,7 @@ def main(query, filename, database, username, host, port, geom_col, variable, cm
     path = "/tmp/cartviz.html"
 
     map_.save(path)
-    webbrowser.open(path)
+    open_browser(path)
 
 
 if __name__ == "__main__":
