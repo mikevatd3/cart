@@ -33,7 +33,7 @@ def open_browser(path):
                 return
     
     # Regular Linux - use webbrowser module
-    webbrowser.get('google-chrome').open(win_path)
+    webbrowser.get('google-chrome').open(path)
 
 
 @click.command()
