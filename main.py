@@ -39,6 +39,7 @@ def open_browser(path):
 @click.command()
 @click.option("-c", "--command", "query", help="SQL query to execute")
 @click.option("-f", "--file", "filename", help="File containing SQL query")
+@click.option("-F", "--data-file", "data_file", help="Filename of datafile to display.")
 @click.option(
     "-d", "--database", "database", help="Database to run query against"
 )
@@ -74,7 +75,7 @@ def open_browser(path):
     "-v", "--variable", "variable", default=None, help="Variable to set color"
 )
 @click.option(
-    "--cmap", "cmap", default=None, help="Colormap from matplotlib for variable coloring"
+    "--cmap", "cmap", default='magma', help="Colormap from matplotlib for variable coloring"
 )
 def main(query, filename, database, username, host, port, geom_col, variable, cmap):
     if query:
@@ -95,7 +96,7 @@ def main(query, filename, database, username, host, port, geom_col, variable, cm
     with engine.connect() as db:
         table = gpd.read_postgis(text(query), db, geom_col=geom_col)
 
-    map_ = table.explore(column=variable, cmap=cmap)
+    map_ = table.explore(column=variable, cmap=cmap, tiles='CartoDB positron')
 
     path = "/tmp/cartviz.html"
 
