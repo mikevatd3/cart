@@ -39,7 +39,7 @@ def open_browser(path):
 @click.command()
 @click.option("-c", "--command", "query", help="SQL query to execute")
 @click.option("-f", "--file", "filename", help="File containing SQL query")
-@click.option("-F", "--data-file", "data_file", help="Filename of datafile to display.")
+# @click.option("-F", "--data-file", "data_file", help="Filename of datafile to display.")
 @click.option(
     "-d", "--database", "database", help="Database to run query against"
 )
